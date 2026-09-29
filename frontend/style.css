@@ -1,0 +1,679 @@
+/* ===========================================================
+   CareerPilot AI — style.css
+   A clean, dark, "premium SaaS" look inspired by Linear/Notion.
+=========================================================== */
+
+:root {
+  --bg: #0f1115;
+  --bg-card: #171a21;
+  --bg-card-hover: #1c2029;
+  --border: #2a2e38;
+  --text: #e6e8eb;
+  --text-muted: #9aa0ab;
+  --accent: #7c5cff;
+  --accent-soft: #7c5cff22;
+  --accent-gradient: linear-gradient(135deg, #7c5cff 0%, #4839c2 100%);
+  --success: #34d399;
+  --warning: #fbbf24;
+  --danger: #f87171;
+  --radius: 14px;
+  --shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+h1, h2, h3 {
+  margin: 0 0 0.5rem 0;
+  font-weight: 700;
+}
+
+.muted {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+}
+
+/* ---------------- Topbar ---------------- */
+.topbar {
+  border-bottom: 1px solid var(--border);
+  padding: 1.6rem 1.5rem 1.4rem;
+  background: linear-gradient(180deg, #14151c 0%, #0f1115 100%);
+}
+
+.topbar-inner {
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.brand-icon {
+  font-size: 1.6rem;
+}
+
+.accent {
+  color: var(--accent);
+}
+
+.tagline {
+  color: var(--text-muted);
+  margin: 0.35rem 0 0;
+  font-size: 0.95rem;
+}
+
+/* ---------------- Layout ---------------- */
+.container {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.6rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow);
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ---------------- Upload card ---------------- */
+.dropzone {
+  display: block;
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  margin: 1rem 0 1.5rem;
+}
+
+.dropzone:hover, .dropzone.dragover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.dropzone-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-muted);
+}
+
+.dropzone-icon {
+  font-size: 1.8rem;
+}
+
+.upload-alt-options {
+  display: flex;
+  gap: 0.75rem;
+  margin: -0.75rem 0 1.5rem;
+}
+
+.upload-alt-btn {
+  flex: 1;
+  text-align: center;
+  margin-top: 0;
+  font-size: 0.88rem;
+  padding: 0.65rem 0.8rem;
+}
+
+/* ---------------- Camera capture modal ---------------- */
+.camera-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.camera-modal.hidden {
+  display: none !important;
+}
+
+.camera-modal-content {
+  background: var(--bg-card, #14161c);
+  border-radius: var(--radius, 14px);
+  padding: 1rem;
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.camera-video {
+  width: 100%;
+  max-height: 60vh;
+  border-radius: 10px;
+  background: #000;
+  object-fit: cover;
+}
+
+.camera-modal-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.camera-modal-actions .btn-primary,
+.camera-modal-actions .btn-secondary {
+  margin-top: 0;
+  width: 100%;
+}
+
+.jd-box textarea {
+  width: 100%;
+  min-height: 110px;
+  background: #0f1115;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  padding: 0.8rem;
+  font-family: inherit;
+  font-size: 0.92rem;
+  resize: vertical;
+}
+
+.jd-box textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.btn-primary, .btn-secondary {
+  display: inline-block;
+  border: none;
+  border-radius: 10px;
+  padding: 0.75rem 1.4rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: transform 0.15s, opacity 0.15s;
+}
+
+.btn-primary {
+  background: var(--accent-gradient);
+  color: white;
+  width: 100%;
+}
+
+.btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-primary:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-card-hover);
+}
+
+.error-text {
+  color: var(--danger);
+  font-size: 0.88rem;
+  margin-top: 0.6rem;
+  min-height: 1em;
+}
+
+/* ---------------- Loading ---------------- */
+.loading-card {
+  text-align: center;
+  padding: 3rem 1.5rem;
+}
+
+.spinner {
+  width: 38px;
+  height: 38px;
+  border: 4px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---------------- Score banner ---------------- */
+.score-banner {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.score-circle-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.score-circle {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: var(--accent-gradient);
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 2rem;
+  color: white;
+  box-shadow: 0 0 0 6px var(--accent-soft);
+}
+
+.score-max {
+  font-size: 0.9rem;
+  font-weight: 500;
+  opacity: 0.8;
+  margin-left: 2px;
+}
+
+.score-label {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.profile-info h2 {
+  margin-bottom: 0.2rem;
+}
+
+.links a {
+  color: var(--accent);
+  text-decoration: none;
+  margin-right: 0.6rem;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+/* ---------------- Breakdown grid ---------------- */
+.breakdown-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.1rem;
+  margin-top: 1rem;
+}
+
+.breakdown-item .breakdown-top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.88rem;
+  margin-bottom: 0.4rem;
+}
+
+.breakdown-item .breakdown-top span:last-child {
+  color: var(--text-muted);
+}
+
+.progress-bar {
+  height: 8px;
+  background: #0f1115;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.6s ease;
+}
+
+.progress-fill.good { background: var(--success); }
+.progress-fill.ok { background: var(--warning); }
+.progress-fill.bad { background: var(--danger); }
+
+/* ---------------- Issues ---------------- */
+.issue-group {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 0.7rem;
+  overflow: hidden;
+}
+
+.issue-group summary {
+  cursor: pointer;
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  background: var(--bg-card-hover);
+  list-style: none;
+}
+
+.issue-group summary::-webkit-details-marker {
+  display: none;
+}
+
+.issue-group ul {
+  margin: 0;
+  padding: 0.8rem 1.4rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.success-msg {
+  color: var(--success);
+  font-weight: 600;
+}
+
+/* ---------------- Tabs ---------------- */
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  padding: 0.6rem 0.9rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-bottom: 2px solid transparent;
+}
+
+.tab-btn.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.tab-panel {
+  font-size: 0.92rem;
+}
+
+.skill-chip {
+  display: inline-block;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 999px;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.82rem;
+  margin: 0.2rem;
+}
+
+.bullet-item {
+  padding: 0.4rem 0;
+  border-bottom: 1px dashed var(--border);
+}
+
+.bullet-item:last-child {
+  border-bottom: none;
+}
+
+/* ---------------- JD Match ---------------- */
+.jd-match-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+  margin-top: 1rem;
+}
+
+@media (max-width: 600px) {
+  .jd-match-cols { grid-template-columns: 1fr; }
+}
+
+.jd-col h4 {
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+}
+
+/* ---------------- Footer ---------------- */
+.footer {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem 3rem;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  text-align: center;
+}
+
+/* ---------------- Feature nav ---------------- */
+.feature-nav-buttons {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  margin-top: 0.8rem;
+}
+
+.feature-btn {
+  background: var(--bg-card-hover);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 0.7rem 1.2rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.15s;
+  flex: 1;
+  min-width: 180px;
+}
+
+.feature-btn:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.feature-btn.active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.feature-section {
+  border-color: var(--accent-soft);
+}
+
+/* ---------------- Mock Interview ---------------- */
+.interview-question {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem;
+  margin-bottom: 1rem;
+  background: var(--bg-card-hover);
+}
+
+.interview-question .q-category {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+  margin-bottom: 0.5rem;
+}
+
+.interview-question .q-text {
+  font-weight: 600;
+  margin-bottom: 0.7rem;
+}
+
+.interview-question textarea {
+  width: 100%;
+  min-height: 90px;
+  background: #0f1115;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  padding: 0.7rem;
+  font-family: inherit;
+  font-size: 0.9rem;
+  resize: vertical;
+}
+
+.interview-question textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.interview-feedback {
+  margin-top: 0.6rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.interview-feedback .q-score {
+  font-weight: 700;
+  color: var(--text);
+}
+
+.interview-overall {
+  text-align: center;
+  padding: 1rem 0 1.5rem;
+}
+
+.interview-overall .score-circle {
+  width: 90px;
+  height: 90px;
+  font-size: 1.6rem;
+  margin: 0 auto 0.6rem;
+}
+
+/* ---------------- Career Roadmap ---------------- */
+.roadmap-role-picker {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+  margin: 1rem 0 1.5rem;
+}
+
+.roadmap-role-picker label {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.roadmap-role-picker select {
+  background: #0f1115;
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 0.55rem 0.8rem;
+  font-size: 0.9rem;
+  flex: 1;
+  min-width: 200px;
+}
+
+.roadmap-summary {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.2rem;
+}
+
+.roadmap-stage {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem;
+  margin-bottom: 1rem;
+  background: var(--bg-card-hover);
+}
+
+.roadmap-stage h4 {
+  margin: 0 0 0.3rem;
+  color: var(--accent);
+}
+
+.roadmap-stage .stage-duration {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 0.7rem;
+}
+
+.roadmap-skill-item {
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed var(--border);
+}
+
+.roadmap-skill-item:last-child {
+  border-bottom: none;
+}
+
+.roadmap-skill-item .skill-name {
+  font-weight: 700;
+  margin-right: 0.4rem;
+}
+
+.roadmap-skill-item .skill-note {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+}
+
+/* ---------------- Resume Rewriter ---------------- */
+.rewrite-block {
+  margin-bottom: 1.2rem;
+}
+
+.rewrite-block h4 {
+  margin-bottom: 0.5rem;
+  color: var(--accent);
+}
+
+.rewrite-block textarea {
+  width: 100%;
+  background: #0f1115;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  padding: 0.7rem;
+  font-family: inherit;
+  font-size: 0.9rem;
+  resize: vertical;
+}
+
+.rewrite-bullet-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.rewrite-bullet-row span.bullet-dot {
+  color: var(--accent);
+  margin-top: 0.6rem;
+}
+
+.rewrite-bullet-row textarea {
+  min-height: 50px;
+}

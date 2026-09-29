@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI — Resume Analyzer</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <span class="brand-icon">📄</span>
+        <span class="brand-name">CareerPilot <span class="accent">AI</span></span>
+      </div>
+      <p class="tagline">Instant ATS score &amp; resume insights — runs locally, no sign-up needed.</p>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Upload Section -->
+    <section class="card upload-card" id="uploadSection">
+      <h2>1. Upload your resume</h2>
+      <p class="muted">PDF, DOCX, or a clear photo of your resume — max a few MB.</p>
+
+      <label class="dropzone" id="dropzone">
+        <input type="file" id="fileInput" accept=".pdf,.docx,.jpg,.jpeg,.png" hidden />
+        <div class="dropzone-content">
+          <span class="dropzone-icon">⬆️</span>
+          <span id="dropzoneText">Click to choose a file or drag it here</span>
+        </div>
+      </label>
+
+      <div class="upload-alt-options">
+        <button type="button" class="btn-secondary upload-alt-btn" id="cameraBtn">
+          📷 Take a Photo
+        </button>
+        <label class="btn-secondary upload-alt-btn" id="galleryLabel">
+          🖼️ Choose from Gallery
+          <input type="file" id="galleryInput" accept="image/*" hidden />
+        </label>
+      </div>
+      <!-- Fallback for browsers where a live camera stream isn't available
+           (falls back to the OS's own camera capture) -->
+      <input type="file" id="cameraFallbackInput" accept="image/*" capture="environment" hidden />
+
+      <div class="jd-box">
+        <h3>Optional: paste a job description</h3>
+        <textarea id="jdText" placeholder="Paste the job description here to get a match score..."></textarea>
+      </div>
+
+      <button id="analyzeBtn" class="btn-primary" disabled>🔍 Analyze Resume</button>
+      <p id="uploadError" class="error-text"></p>
+    </section>
+
+    <!-- Loading State -->
+    <section class="card loading-card hidden" id="loadingSection">
+      <div class="spinner"></div>
+      <p>Analyzing your resume...</p>
+    </section>
+
+    <!-- Results -->
+    <section class="results hidden" id="resultsSection">
+
+      <div class="card score-banner">
+        <div class="score-circle-wrap">
+          <div class="score-circle" id="overallScoreCircle">
+            <span id="overallScoreNumber">0</span>
+            <span class="score-max">/100</span>
+          </div>
+          <span class="score-label">Overall ATS Score</span>
+        </div>
+        <div class="profile-info">
+          <h2 id="profileName">—</h2>
+          <p id="profileEmail" class="muted"></p>
+          <p id="profilePhone" class="muted"></p>
+          <p id="profileLinks" class="links"></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>📊 Score Breakdown</h2>
+        <div class="breakdown-grid" id="breakdownGrid"></div>
+      </div>
+
+      <div class="card">
+        <h2>🛠️ Issues &amp; Suggestions</h2>
+        <div id="issuesContainer"></div>
+      </div>
+
+      <div class="card">
+        <h2>🧩 Extracted Details</h2>
+        <div class="tabs">
+          <button class="tab-btn active" data-tab="skills">Skills</button>
+          <button class="tab-btn" data-tab="experience">Experience</button>
+          <button class="tab-btn" data-tab="projects">Projects</button>
+          <button class="tab-btn" data-tab="education">Education</button>
+        </div>
+        <div class="tab-panel" id="tab-skills"></div>
+        <div class="tab-panel hidden" id="tab-experience"></div>
+        <div class="tab-panel hidden" id="tab-projects"></div>
+        <div class="tab-panel hidden" id="tab-education"></div>
+      </div>
+
+      <div class="card" id="jdMatchCard">
+        <h2>🎯 Job Description Match</h2>
+        <div id="jdMatchContent">
+          <p class="muted">Paste a job description above and re-run analysis to see your match score.</p>
+        </div>
+      </div>
+
+      <!-- Feature navigation: Mock Interview / Career Roadmap / Resume Rewrite -->
+      <div class="card feature-nav">
+        <h2>🚀 Next steps</h2>
+        <div class="feature-nav-buttons">
+          <button class="feature-btn" data-feature="interview">🎤 Mock Interview</button>
+          <button class="feature-btn" data-feature="roadmap">🗺️ Career Roadmap</button>
+          <button class="feature-btn" data-feature="rewrite">✍️ Rewrite Resume</button>
+        </div>
+      </div>
+
+      <!-- ===================== Mock Interview ===================== -->
+      <section class="card feature-section hidden" id="interviewSection">
+        <h2>🎤 Mock Interview</h2>
+        <p class="muted">Personalized questions based on your resume. Answer in your own words, then get a score.</p>
+
+        <div id="interviewIntro">
+          <button id="startInterviewBtn" class="btn-primary">Start Mock Interview</button>
+        </div>
+
+        <div id="interviewQuestions" class="hidden"></div>
+
+        <div id="interviewSubmitWrap" class="hidden">
+          <button id="submitInterviewBtn" class="btn-primary">Submit Answers &amp; Get Score</button>
+        </div>
+
+        <div id="interviewResults" class="hidden"></div>
+      </section>
+
+      <!-- ===================== Career Roadmap ===================== -->
+      <section class="card feature-section hidden" id="roadmapSection">
+        <h2>🗺️ Career Roadmap</h2>
+        <p class="muted">A staged learning plan based on the gap between your current skills and a target role.</p>
+
+        <div class="roadmap-role-picker">
+          <label for="roleSelect">Target role:</label>
+          <select id="roleSelect"><option value="">Auto-detect best match</option></select>
+          <button id="generateRoadmapBtn" class="btn-secondary">Generate Roadmap</button>
+        </div>
+
+        <div id="roadmapContent"></div>
+      </section>
+
+      <!-- ===================== Resume Rewriter ===================== -->
+      <section class="card feature-section hidden" id="rewriteSection">
+        <h2>✍️ Rewrite Resume</h2>
+        <p class="muted">
+          Weak bullet points get rewritten with strong action verbs, a professional
+          summary is added if one is missing, and any AI-flagged missing keywords are
+          added to your skills. Review/edit below, then download your full, updated resume.
+        </p>
+
+        <div id="rewriteIntro">
+          <button id="generateRewriteBtn" class="btn-primary">Generate Improved Resume</button>
+        </div>
+
+        <div id="rewriteContent" class="hidden"></div>
+
+        <div id="rewriteDownloadWrap" class="hidden">
+          <button id="downloadResumeBtn" class="btn-primary">⬇️ Download Updated Resume (.docx)</button>
+        </div>
+      </section>
+
+      <button id="reanalyzeBtn" class="btn-secondary">⬅️ Analyze another resume</button>
+
+    </section>
+
+  </main>
+
+  <!-- Live camera capture modal (used by "Take a Photo") -->
+  <div class="camera-modal hidden" id="cameraModal">
+    <div class="camera-modal-content">
+      <video id="cameraVideo" class="camera-video" autoplay playsinline muted></video>
+      <canvas id="cameraCanvas" hidden></canvas>
+      <p id="cameraError" class="error-text"></p>
+      <div class="camera-modal-actions">
+        <button type="button" id="cameraCancelBtn" class="btn-secondary">✖ Cancel</button>
+        <button type="button" id="cameraCaptureBtn" class="btn-primary">📸 Capture</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>⚠️ Scores are generated using rule-based heuristics (keyword matching, section detection,
+       readability formulas) — a strong directional signal, not a guarantee of how any specific
+       real-world ATS will score your resume.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
